@@ -39,9 +39,58 @@ def readInfWords():
 	clearData = re.sub(u"\:", "", clearData)
 	clearData = re.sub(u"\.\.\.", "", clearData)
 	clearData = re.sub(u"\*.", "", clearData)
-	#clearData = re.sub(u"\s+"," ", clearData)
-	print clearData
+	clearData = re.sub(u"[ \t]+"," ", clearData)
+	clearData = re.sub(u"\n ","\n", clearData)
+	clearData = re.sub(u" \n","\n", clearData)
+	clearData = re.sub(u"\n+","\n", clearData)
+	#print clearData
 	#   - define informant|communicant
+	infMatcher= ""
+	comMatcher = ""
+	info = ""
+	comm = ""
+	lastPerson = ""
+	infMatch = re.compile(u'([sS][0-9]+).*')
+	comMatch = re.compile(u'([mMwW][0-9]+).*')
+	for line in clearData.split("\n"):
+		#print "L: <%s>" % (line)
+		#matching for informants and communicants
+		infMatcher = infMatch.search(line)
+		comMatcher = comMatch.search(line)
+		if infMatcher:
+			lastPerson = "informant"
+			info = infMatcher.group(1)
+			if not info in numOfWordsInf:
+				numOfWordsInf[info] = 0
+		if comMatcher:
+			lastPerson = "communicant"
+			comm = comMatcher.group(1)
+			if not comm in numOfWordsCom:
+				numOfWordsCom[comm] = 0
+				
+		for word in line.split(" "):
+			#print word 
+			if word != info and word != comm:
+				if lastPerson == "informant":
+					numOfWordsInf[info] += 1
+					print numOfWordsInf[info]
+					#print "Number of words for %s = %s For word = {%s}" %(info, numOfWordsInf, word)
+				elif lastPerson  == "communicant":
+					numOfWordsCom[comm] += 1
+
+					#print "Number of words for %s = %s For word = {%s}" %(comm, numOfWordsCom, word)
+
+				
+			# else:
+			# 	print "Error with", info 
+			#print "Found matcher:", infMatcher.group(1)
+
+
+			#print "Found matcher:", infMatcher.group(1)
+
+
+
+	
 	#   - compose full replica
 	#   - tokenize replicas by spaces and punctuation
 	#   - distribute words by dictionaries infWords and comWords 
