@@ -10,6 +10,8 @@ textFile  = ["/home/darya/work/lingvo_data/Rasshifrovki_125-147.txt",
              "/home/darya/work/lingvo_data/Rasshifrovki_I100-124.txt"] 
 psychFile = "/home/darya/work/lingvo_data/PsyType.txt"
 
+mask = u"типа"
+
 # create dictionaries
 psychInf = {}
 infWords = {}
@@ -21,6 +23,7 @@ numMarkWords = {}
 numOfWordsPsych = {}
 infReplicas = {}
 comReplicas = {}
+
 
 def readInfWords(text):
 	print "readInfWords()"
@@ -234,6 +237,21 @@ def printResult():
 	# print numMarkWords 
 	# print numOfWordsPsych 
 	# print infReplicas
+def repFilter():
+	print "-------------------"
+	for key in infReplicas:
+		
+		if key in psychInf:
+			for line in infReplicas[key]:
+				if mask in line:
+					# print " ============= PType: %s " % (psychInf[key])
+					# print " ============= Informant: %s " % (key)
+					# print " ============= Replicas: %s " % (line)
+					print "%s\t        %s     \t%s" % (psychInf[key], key, line)
+
+
+		
+
 
 for fileName in textFile:
 	print "========================= Opening file ",fileName
@@ -245,3 +263,4 @@ for fileName in textFile:
 
 sumNumOfWordsPsych()
 printResult()
+repFilter()
