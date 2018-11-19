@@ -19,6 +19,8 @@ numOfWordsInf = {}
 numOfWordsCom = {}
 numMarkWords = {}
 numOfWordsPsych = {}
+infReplicas = {}
+comReplicas = {}
 
 def readInfWords(text):
 	print "readInfWords()"
@@ -85,6 +87,7 @@ def readInfWords(text):
 			if not info in numOfWordsInf:
 				numOfWordsInf[info] = 0
 				infWords[info] = []
+				infReplicas[info] = []
 		if comMatcher:
 			lastPerson = "communicant"
 			comm = comMatcher.group(1)
@@ -93,9 +96,40 @@ def readInfWords(text):
 			if not comm in numOfWordsCom:
 				numOfWordsCom[comm] = 0
 				comWords[comm] = []
+				comReplicas[comm] = []
 
 		#if isPersonFoundInLine == False:
 			#print "Person is not found in line:", line
+#1. add a new dict with a key = Inf, value = list of replics
+#2. delete the loop with words, NumOfWords + number of words in line
+			#print replica
+			#FIXME
+		words = line.split()
+		if line != info:
+
+		#if line == comm:
+		# if len(words) > 0 :
+		# 	print "First word is:   %s"% (words[0])
+		# 	print "Line content is: %s"% (" ".join(words[1:]))
+		# 	print words
+		# 	print len(words) 
+
+			if lastPerson == "informant":
+				infReplicas[info].append(line)
+						
+			elif lastPerson  == "communicant":
+				comReplicas[comm].append(line)
+		
+
+		
+		# if word != info and word != comm:
+		# 	if lastPerson == "informant":
+		# 		numOfWordsInf[info] += 1
+		# 		infWords[info].append(word)
+		# 		#print "Number of words for %s = %s For word = {%s}" %(info, numOfWordsInf, word)
+		# 	elif lastPerson  == "communicant":
+		# 		numOfWordsCom[comm] += 1
+		# 		comWords[comm].append(word)
 
 		for word in line.split(" "):
 			#print word 
@@ -186,12 +220,20 @@ def printResult():
 		# if key != "m1":
 		# 	continue
 		#print "================================", key, "\n", " ".join(comWords[key])
+	
+	for key in infReplicas:
+		#print "================================", key, "\n\n", infReplicas[key]
+		print "================================", key, "\n", "\n".join(infReplicas[key])
+	# for key in comReplicas:
+	# 	#print "================================", key, "\n\n", comReplicas[key]
+	# 	print "================================", key, "\n", "\n".join(comReplicas[key])
 	# print comWords 
 	# print markWords 
 	# print numOfWordsInf 
 	# print numOfWordsCom 
 	# print numMarkWords 
 	# print numOfWordsPsych 
+	# print infReplicas
 
 for fileName in textFile:
 	print "========================= Opening file ",fileName
