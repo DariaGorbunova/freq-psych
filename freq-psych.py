@@ -10,7 +10,7 @@ textFile  = ["/home/darya/work/lingvo_data/Rasshifrovki_125-147.txt",
              "/home/darya/work/lingvo_data/Rasshifrovki_I100-124.txt"] 
 psychFile = "/home/darya/work/lingvo_data/PsyType.txt"
 
-mask = u"типа"
+mask = u".*эт.?.? сам.*"
 
 # create dictionaries
 psychInf = {}
@@ -243,7 +243,7 @@ def repFilter():
 		
 		if key in psychInf:
 			for line in infReplicas[key]:
-				if mask in line:
+				if re.match(mask, line):
 					# print " ============= PType: %s " % (psychInf[key])
 					# print " ============= Informant: %s " % (key)
 					# print " ============= Replicas: %s " % (line)
